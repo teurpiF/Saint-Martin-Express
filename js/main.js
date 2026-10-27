@@ -1,3 +1,13 @@
+window.addEventListener(‘error’, (event) => {
+alert(’Erreur JavaScript : ’ + event.message);
+});
+
+window.addEventListener(‘unhandledrejection’, (event) => {
+alert(’Erreur de chargement : ’ + event.reason);
+});
+
+
+
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { createRoad } from './road.js';
 import { createFollowCamera } from './camera.js';
