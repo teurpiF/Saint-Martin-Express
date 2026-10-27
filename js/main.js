@@ -1,10 +1,3 @@
-window.addEventListener(‘error’, (event) => {
-alert(’Erreur JavaScript : ’ + event.message);
-});
-
-window.addEventListener(‘unhandledrejection’, (event) => {
-alert(’Erreur de chargement : ’ + event.reason);
-});
 
 
 
