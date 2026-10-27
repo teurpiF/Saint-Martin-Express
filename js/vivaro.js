@@ -1,5 +1,6 @@
-import * as THREE from 'three';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
 
 export function createVivaro(scene) {
   const van = new THREE.Group();
@@ -10,8 +11,10 @@ export function createVivaro(scene) {
   const loader = new GLTFLoader();
 
   loader.load(
-    '../models/passenger-van-with-side-windows.glb',
+'./models/passenger-van-with-side-windows.glb',
 
+
+    
     (gltf) => {
       const model = gltf.scene;
 
