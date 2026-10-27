@@ -45,6 +45,20 @@
       <button id="again">Recommencer</button>
     </section>
   </div>
+  
+  
+  <script>
+window.addEventListener('error', function(event) {
+  alert('Erreur : ' + (event.message || 'chargement du jeu impossible'));
+});
+
+window.addEventListener('unhandledrejection', function(event) {
+  alert('Erreur de chargement : ' + event.reason);
+});
+</script>
+  
+  
+  
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
