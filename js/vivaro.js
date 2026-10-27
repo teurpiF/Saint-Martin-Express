@@ -1,5 +1,7 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from ‘three’;
+import { GLTFLoader } from ‘https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js’;
+
+
 export function createVivaro(scene) {
   const van = new THREE.Group();
   van.position.set(0, 0, 3);
