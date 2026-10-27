@@ -1,4 +1,4 @@
-import * as THREE from ‘https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js’;
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
 export function createFollowCamera(camera) {
 const desired = new THREE.Vector3();
