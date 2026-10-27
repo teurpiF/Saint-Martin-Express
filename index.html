@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#172329">
+  <title>Le Saint-Martin Express</title>
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+  <div id="scene"></div>
+  <div class="hud">
+    <div class="chip">
+      <span>Distance</span>
+      <strong><b id="distance">0</b> m</strong>
+    </div>
+    <div class="chip">
+      <span>Vies</span>
+      <strong id="lives">♥ ♥ ♥</strong>
+    </div>
+    <button id="pause" aria-label="Pause">Ⅱ</button>
+  </div>
+  <div id="hint">Glisse ton doigt pour diriger le Vivaro</div>
+  <div id="start" class="overlay">
+    <section class="card">
+      <p class="eyebrow">Saint-Martin · marche arrière</p>
+      <h1>Le Saint-Martin Express</h1>
+      <p>Garde le Vivaro sur la route, évite les obstacles et parcours la plus grande distance possible.</p>
+      <button id="play">Démarrer le moteur</button>
+      <small>Sur téléphone : glisse ton doigt à gauche ou à droite.</small>
+    </section>
+  </div>
+  <div id="pauseScreen" class="overlay hidden">
+    <section class="card">
+      <h1>Pause</h1>
+      <button id="resume">Reprendre</button>
+    </section>
+  </div>
+  <div id="end" class="overlay hidden">
+    <section class="card">
+      <p class="eyebrow">Fin de trajet</p>
+      <h1>Fin de course</h1>
+      <p class="score"><b id="finalDistance">0</b> m</p>
+      <button id="again">Recommencer</button>
+    </section>
+  </div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
