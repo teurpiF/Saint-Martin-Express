@@ -96,19 +96,6 @@ driver.position.set(0.40, 1.72, 1.85);
 
 
 
-
-
-
-
-
-          
-
-
-
-          
-marker.position.copy(driver.position);
-marker.position.z += 0.2;
-
 van.add(marker);
 
 
