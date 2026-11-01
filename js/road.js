@@ -1,124 +1,320 @@
+
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-const material = (color, roughness = 0.9) =>
-new THREE.MeshStandardMaterial({
-color,
-roughness,
-side: THREE.DoubleSide
-});
+// --------------------------------------------------
+// MATÉRIAUX
+// --------------------------------------------------
+
+const material = (color, roughness = 0.95) =>
+  new THREE.MeshStandardMaterial({
+    color,
+    roughness,
+    side: THREE.DoubleSide
+  });
+
+const asphalt = material(0x555758);
+const grass = material(0x788966);
+const whiteLine = material(0xf0eee0);
+const trunkMaterial = material(0x594331);
+const leafMaterials = [
+  material(0x466344),
+  material(0x58764b),
+  material(0x718b5b),
+  material(0x829567)
+];
+
+// --------------------------------------------------
+// COURBURE DE LA ROUTE
+// --------------------------------------------------
 
 export function roadCenter(z) {
-return 2.1 * Math.sin(z * 0.038)
-+ 0.9 * Math.sin(z * 0.09 + 1.3);
+  return (
+    2.1 * Math.sin(z * 0.038) +
+    0.9 * Math.sin(z * 0.09 + 1.3)
+  );
 }
+
+// --------------------------------------------------
+// CRÉATION DE LA ROUTE
+// --------------------------------------------------
 
 export function createRoad(scene) {
-const asphalt = material(0x494e50);
-const verge = material(0x899078);
-const line = material(0xe7dcc2);
-const grass = material(0x687b57);
 
-const segments = [];
-const length = 3.5;
-const count = 70;
+  const segments = [];
 
-const ground = new THREE.Mesh(
-new THREE.PlaneGeometry(240, 280),
-grass
-);
-ground.rotation.x = -Math.PI / 2;
-ground.position.set(0, -0.13, -75);
-scene.add(ground);
+  const segmentLength = 7;
+  const segmentCount = 40;
+  const totalLength = segmentLength * segmentCount;
 
-for (let i = 0; i < count; i++) {
-const z = 12 - i * length;
-const group = new THREE.Group();
-scene.add(group);
+  const roadWidth = 6.4;
+  const vergeWidth = 1.4;
 
-function addStrip(offset, width, y, mat) {
-  const z0 = z;
-  const z1 = z - length;
-  const x0 = roadCenter(z0) + offset;
-  const x1 = roadCenter(z1) + offset;
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute(
-    'position',
-    new THREE.Float32BufferAttribute([
-      x0 - width / 2, y, z0,
-      x1 - width / 2, y, z1,
-      x0 + width / 2, y, z0,
-      x0 + width / 2, y, z0,
-      x1 - width / 2, y, z1,
-      x1 + width / 2, y, z1
-    ], 3)
+  // Sol général
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(260, 400),
+    grass
   );
-  geometry.computeVertexNormals();
-  group.add(new THREE.Mesh(geometry, mat));
-}
-addStrip(0, 9.6, -0.02, asphalt);
-addStrip(-5.1, 1.2, -0.03, verge);
-addStrip(5.1, 1.2, -0.03, verge);
-addStrip(-4.65, 0.12, 0, line);
-addStrip(4.65, 0.12, 0, line);
-if (i % 2 === 0) {
-  addStrip(0, 0.12, 0.005, line);
-}
-segments.push({ group, z });
 
-}
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.set(0, -0.13, -120);
+  ground.receiveShadow = true;
+  scene.add(ground);
 
-const trees = [];
-const trunkMaterial = material(0x68513d);
-const leafMaterial = material(0x59764d);
-const leafMaterial2 = material(0x7b9160);
+  // --------------------------------------------------
+  // CONSTRUCTION DES SEGMENTS
+  // --------------------------------------------------
 
-for (let i = 0; i < 48; i++) {
-for (const side of [-1, 1]) {
-const z = -i * 5.3 - 8;
-const offset = side * (8 + Math.random() * 5);
+  function addStrip(group, z, offset, width, y, mat) {
 
-  const tree = new THREE.Group();
-  tree.position.set(roadCenter(z) + offset, 0, z);
-  scene.add(tree);
-  const trunk = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.13, 0.2, 1.5, 8),
-    trunkMaterial
-  );
-  trunk.position.y = 0.75;
-  tree.add(trunk);
-  for (let j = 0; j < 3; j++) {
-    const crown = new THREE.Mesh(
-      new THREE.ConeGeometry(0.9 - j * 0.17, 1.25, 8),
-      j % 2 ? leafMaterial2 : leafMaterial
+    const center0 = roadCenter(z);
+    const center1 = roadCenter(z - segmentLength);
+
+    const x0 = center0 + offset;
+    const x1 = center1 + offset;
+
+    const geometry = new THREE.BufferGeometry();
+
+    geometry.setAttribute(
+      'position',
+      new THREE.Float32BufferAttribute([
+        x0 - width / 2 - center0, y, 0,
+        x1 - width / 2 - center1, y, -segmentLength,
+        x0 + width / 2 - center0, y, 0,
+
+        x0 + width / 2 - center0, y, 0,
+        x1 - width / 2 - center1, y, -segmentLength,
+        x1 + width / 2 - center1, y, -segmentLength
+      ], 3)
     );
-    crown.position.y = 1.45 + j * 0.58;
-    tree.add(crown);
+
+    geometry.computeVertexNormals();
+
+    const mesh = new THREE.Mesh(geometry, mat);
+    mesh.receiveShadow = true;
+    group.add(mesh);
   }
-  trees.push({ group: tree, z, offset });
-}
 
-}
+  for (let i = 0; i < segmentCount; i++) {
 
-return {
-update(dt, speed) {
-for (const segment of segments) {
-segment.z += speed * dt;
+    const z = 12 - i * segmentLength;
 
-    if (segment.z > 14) {
-      segment.z -= count * length;
+    const group = new THREE.Group();
+
+    // Chaussée
+    addStrip(
+      group, z,
+      0, roadWidth,
+      -0.02, asphalt
+    );
+
+    // Accotements herbeux
+    addStrip(
+      group, z,
+      -(roadWidth / 2 + vergeWidth / 2),
+      vergeWidth,
+      -0.025, grass
+    );
+
+    addStrip(
+      group, z,
+      roadWidth / 2 + vergeWidth / 2,
+      vergeWidth,
+      -0.025, grass
+    );
+
+    // Ligne centrale discontinue
+    if (i % 2 === 0) {
+      addStrip(
+        group, z,
+        0, 0.14,
+        0.005, whiteLine
+      );
     }
-    segment.group.position.z = segment.z;
-  }
-  for (const tree of trees) {
-    tree.z += speed * dt;
-    if (tree.z > 15) {
-      tree.z -= 260;
-    }
-    tree.group.position.z = tree.z;
-    tree.group.position.x =
-      roadCenter(tree.z) + tree.offset;
-  }
-}
 
-};
+    group.position.set(roadCenter(z), 0, z);
+
+    scene.add(group);
+
+    segments.push({
+      group,
+      z
+    });
+  }
+
+  // --------------------------------------------------
+  // CRÉATION DES ARBRES FEUILLUS
+  // --------------------------------------------------
+
+  function createTree() {
+
+    const tree = new THREE.Group();
+
+    const height = 3.5 + Math.random() * 2.2;
+    const crownSize = 1.1 + Math.random() * 0.7;
+
+    // Tronc
+    const trunk = new THREE.Mesh(
+      new THREE.CylinderGeometry(
+        0.12,
+        0.22,
+        height * 0.48,
+        7
+      ),
+      trunkMaterial
+    );
+
+    trunk.position.y = height * 0.24;
+    trunk.castShadow = true;
+    tree.add(trunk);
+
+    // Houppier composé de volumes arrondis
+    const foliage = new THREE.Group();
+
+    const leafCount = 5 + Math.floor(Math.random() * 3);
+
+    for (let i = 0; i < leafCount; i++) {
+
+      const size = crownSize * (0.65 + Math.random() * 0.45);
+
+      const crown = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(size, 1),
+        leafMaterials[
+          Math.floor(Math.random() * leafMaterials.length)
+        ]
+      );
+
+      crown.position.set(
+        (Math.random() - 0.5) * crownSize * 1.3,
+        height * 0.52 + Math.random() * height * 0.28,
+        (Math.random() - 0.5) * crownSize * 1.3
+      );
+
+      crown.scale.y = 0.8 + Math.random() * 0.5;
+      crown.castShadow = true;
+      foliage.add(crown);
+    }
+
+    tree.add(foliage);
+
+    return tree;
+  }
+
+  // --------------------------------------------------
+  // CRÉATION DES HAIES
+  // --------------------------------------------------
+
+  function createBush() {
+
+    const bush = new THREE.Group();
+
+    for (let i = 0; i < 4; i++) {
+
+      const sphere = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(
+          0.55 + Math.random() * 0.3,
+          1
+        ),
+        leafMaterials[
+          Math.floor(Math.random() * leafMaterials.length)
+        ]
+      );
+
+      sphere.position.set(
+        (Math.random() - 0.5) * 0.9,
+        0.45 + Math.random() * 0.25,
+        (Math.random() - 0.5) * 0.5
+      );
+
+      sphere.scale.y = 0.75;
+      sphere.castShadow = true;
+
+      bush.add(sphere);
+    }
+
+    return bush;
+  }
+
+  // --------------------------------------------------
+  // INSTALLATION DES ARBRES ET HAIES
+  // --------------------------------------------------
+
+  const scenery = [];
+
+  for (let i = 0; i < 65; i++) {
+
+    for (const side of [-1, 1]) {
+
+      const z = -i * 4.5 - 10;
+
+      const distance = 5.5 + Math.random() * 8;
+
+      const isBush = Math.random() < 0.35;
+
+      const object = isBush
+        ? createBush()
+        : createTree();
+
+      const offset = side * distance;
+
+      object.position.set(
+        roadCenter(z) + offset,
+        0,
+        z
+      );
+
+      // Variations de taille
+      const scale = 0.8 + Math.random() * 0.65;
+      object.scale.setScalar(scale);
+
+      scene.add(object);
+
+      scenery.push({
+        object,
+        z,
+        offset
+      });
+    }
+  }
+
+  // --------------------------------------------------
+  // MISE À JOUR DU DÉFILEMENT
+  // --------------------------------------------------
+
+  return {
+
+    update(dt, speed) {
+
+      // Défilement de la route
+      for (const segment of segments) {
+
+        segment.z += speed * dt;
+
+        if (segment.z > 16) {
+          segment.z -= totalLength;
+        }
+
+        segment.group.position.set(
+          roadCenter(segment.z),
+          0,
+          segment.z
+        );
+      }
+
+      // Défilement des arbres et de la végétation
+      for (const item of scenery) {
+
+        item.z += speed * dt;
+
+        if (item.z > 16) {
+          item.z -= 300;
+        }
+
+        item.object.position.set(
+          roadCenter(item.z) + item.offset,
+          0,
+          item.z
+        );
+      }
+    }
+  };
 }
