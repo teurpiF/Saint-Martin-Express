@@ -3,6 +3,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/
 
 
 export function createVivaro(scene) {
+  alert('TEST : vivaro.js est bien exécuté');
   const van = new THREE.Group();
 
   van.position.set(0, 0, 3);
