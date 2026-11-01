@@ -22,6 +22,18 @@ export function createVivaro(scene) {
       // Calculer les dimensions du modèle
       const box = new THREE.Box3().setFromObject(model);
       const size = box.getSize(new THREE.Vector3());
+     
+      alert(
+  'Dimensions du Vivaro :\n' +
+  'X : ' + size.x.toFixed(2) + '\n' +
+  'Y : ' + size.y.toFixed(2) + '\n' +
+  'Z : ' + size.z.toFixed(2)
+);
+      
+      
+      
+      
+      
       const center = box.getCenter(new THREE.Vector3());
 
       // Centrer le modèle
