@@ -1,4 +1,5 @@
 
+
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
 export function createFollowCamera(camera) {
@@ -8,24 +9,24 @@ export function createFollowCamera(camera) {
   return function updateCamera(car, dt, aspect) {
     const portrait = aspect < 0.8;
 
-    // Caméra plus basse et plus proche du Vivaro.
+    // Caméra face au Vivaro, légèrement surélevée.
     desired.set(
-      car.position.x + 0.2,
-      portrait ? 5.5 : 4.8,
-      portrait ? 10 : 9
+      car.position.x,
+      portrait ? 7 : 6,
+      portrait ? 11 : 10
     );
 
-    // Déplacement fluide de la caméra.
+    // Suivi fluide.
     camera.position.lerp(
       desired,
       1 - Math.exp(-Math.max(dt, 0.001) * 3)
     );
 
-    // Regarder le véhicule et la route devant lui.
+    // Regarder directement le véhicule.
     look.set(
       car.position.x,
-      1.1,
-      portrait ? -5 : -6
+      1.2,
+      car.position.z
     );
 
     camera.lookAt(look);
