@@ -96,13 +96,6 @@ driver.position.set(0.40, 1.72, 1.85);
 
 
 
-van.add(marker);
-
-
-
-
-
-
           
 
 
