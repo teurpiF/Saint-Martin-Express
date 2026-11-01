@@ -51,7 +51,7 @@ function createSignTexture() {
   ctx.fillRect(490, 55, 7, 190);
 
   // Destination
-  ctx.font = 'bold 100px Arial';
+ctx.font = 'bold 78px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText('GLANDERGLAND', 850, 155);
@@ -122,9 +122,9 @@ function createDirectionSign() {
   gantry.add(lowerBeam);
 
   // Panneau suspendu
-  const width = 8.8;
-  const height = 1.65;
-
+const width = 6.8;
+const height = 1.7;
+  
   const board = new THREE.Mesh(
     new THREE.BoxGeometry(width, height, 0.14),
     new THREE.MeshStandardMaterial({
