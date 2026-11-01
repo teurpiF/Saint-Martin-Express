@@ -22,13 +22,13 @@ container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x9dc5df);
-scene.fog = new THREE.Fog(0x9dc5df, 45, 150);
+scene.fog = new THREE.Fog(0x9dc5df, 80, 300);
 
 const camera = new THREE.PerspectiveCamera(
   48,
   window.innerWidth / window.innerHeight,
   0.1,
-  250
+  400
 );
 
 scene.add(new THREE.HemisphereLight(0xe6f3ff, 0x65704e, 2));
@@ -87,8 +87,10 @@ function startGame() {
   endScreen.classList.add('hidden');
   hint.classList.remove('hidden');
 
-  car.group.position.set(0, 0, 3);
-  updateHUD();
+car.group.position.set(0, 0, 3);
+signs.reset();
+updateHUD();
+  
 
   lastTime = performance.now();
   if (animationId !== null) cancelAnimationFrame(animationId);
