@@ -53,56 +53,72 @@ function drawIcon(ctx, type) {
     ctx.fillRect(80, 270, 380, 8);
   }
 
-  if (type === 'manneken') {
-    // Tête
-    ctx.beginPath();
-    ctx.arc(190, 55, 29, 0, Math.PI * 2);
-    ctx.fill();
 
-    // Corps
-    ctx.beginPath();
-    ctx.moveTo(165, 95);
-    ctx.lineTo(215, 95);
-    ctx.lineTo(225, 175);
-    ctx.lineTo(155, 175);
-    ctx.closePath();
-    ctx.fill();
 
-    // Jambes
-    ctx.beginPath();
-    ctx.moveTo(160, 165);
-    ctx.lineTo(190, 165);
-    ctx.lineTo(175, 265);
-    ctx.lineTo(145, 265);
-    ctx.closePath();
-    ctx.fill();
 
-    ctx.beginPath();
-    ctx.moveTo(195, 165);
-    ctx.lineTo(225, 165);
-    ctx.lineTo(250, 265);
-    ctx.lineTo(220, 265);
-    ctx.closePath();
-    ctx.fill();
 
-    // Bras et jet d'eau
-    ctx.beginPath();
-    ctx.moveTo(165, 110);
-    ctx.lineTo(135, 175);
-    ctx.lineTo(145, 205);
-    ctx.moveTo(215, 110);
-    ctx.lineTo(265, 155);
-    ctx.lineTo(295, 155);
-    ctx.stroke();
 
-    ctx.beginPath();
-    ctx.setLineDash([5, 13]);
-    ctx.lineWidth = 10;
-    ctx.moveTo(300, 155);
-    ctx.quadraticCurveTo(350, 165, 405, 225);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
+if (type === 'manneken') {
+  // Tête ronde
+  ctx.beginPath();
+  ctx.arc(220, 48, 25, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Petit corps
+  ctx.beginPath();
+  ctx.moveTo(195, 82);
+  ctx.lineTo(245, 82);
+  ctx.lineTo(255, 165);
+  ctx.lineTo(185, 165);
+  ctx.closePath();
+  ctx.fill();
+
+  // Jambes courtes et légèrement écartées
+  ctx.beginPath();
+  ctx.moveTo(190, 155);
+  ctx.lineTo(220, 155);
+  ctx.lineTo(205, 265);
+  ctx.lineTo(175, 265);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(225, 155);
+  ctx.lineTo(255, 155);
+  ctx.lineTo(270, 265);
+  ctx.lineTo(240, 265);
+  ctx.closePath();
+  ctx.fill();
+
+  // Bras gauche replié
+  ctx.beginPath();
+  ctx.moveTo(195, 95);
+  ctx.lineTo(165, 145);
+  ctx.lineTo(180, 175);
+  ctx.stroke();
+
+  // Bras droit le long du corps
+  ctx.beginPath();
+  ctx.moveTo(245, 95);
+  ctx.lineTo(275, 145);
+  ctx.stroke();
+
+  // Jet d'eau caractéristique
+  ctx.lineWidth = 9;
+  ctx.setLineDash([5, 11]);
+  ctx.beginPath();
+  ctx.moveTo(255, 160);
+  ctx.quadraticCurveTo(340, 145, 425, 220);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+
+
+
+
+
+  
 
   if (type === 'shirt') {
     ctx.beginPath();
@@ -161,66 +177,99 @@ function drawIcon(ctx, type) {
     ctx.fill();
   }
 
-  if (type === 'wine') {
-    ctx.beginPath();
-    ctx.moveTo(145, 55);
-    ctx.lineTo(385, 55);
-    ctx.lineTo(360, 150);
-    ctx.quadraticCurveTo(350, 215, 265, 215);
-    ctx.quadraticCurveTo(180, 215, 170, 150);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillRect(252, 210, 26, 65);
-    ctx.beginPath();
-    ctx.ellipse(265, 280, 95, 12, 0, 0, Math.PI * 2);
-    ctx.fill();
-  }
 
-  if (type === 'horse') {
-    // Corps
-    ctx.beginPath();
-    ctx.moveTo(105, 145);
-    ctx.quadraticCurveTo(110, 105, 185, 105);
-    ctx.lineTo(285, 115);
-    ctx.quadraticCurveTo(315, 95, 330, 55);
-    ctx.lineTo(370, 65);
-    ctx.lineTo(390, 100);
-    ctx.lineTo(430, 105);
-    ctx.lineTo(410, 135);
-    ctx.lineTo(365, 145);
-    ctx.lineTo(330, 175);
-    ctx.lineTo(160, 180);
-    ctx.closePath();
-    ctx.fill();
 
-    // Tête et oreilles
-    ctx.beginPath();
-    ctx.moveTo(350, 65);
-    ctx.lineTo(355, 30);
-    ctx.lineTo(375, 65);
-    ctx.lineTo(395, 45);
-    ctx.lineTo(395, 95);
-    ctx.fill();
 
-    // Jambes
-    for (const [x, y, w] of [
-      [145, 165, 30],
-      [205, 165, 30],
-      [290, 160, 30],
-      [335, 145, 30]
-    ]) {
-      ctx.fillRect(x, y, w, 100);
-    }
 
-    // Queue et crinière
-    ctx.beginPath();
-    ctx.moveTo(110, 125);
-    ctx.quadraticCurveTo(65, 145, 90, 205);
-    ctx.moveTo(300, 105);
-    ctx.lineTo(320, 80);
-    ctx.lineTo(330, 110);
-    ctx.stroke();
-  }
+if (type === 'wine') {
+  // Coupe du verre
+  ctx.beginPath();
+  ctx.moveTo(155, 45);
+  ctx.lineTo(375, 45);
+  ctx.lineTo(350, 145);
+  ctx.quadraticCurveTo(340, 205, 265, 205);
+  ctx.quadraticCurveTo(190, 205, 180, 145);
+  ctx.closePath();
+  ctx.fill();
+
+  // Tige longue et bien visible
+  ctx.fillRect(253, 200, 24, 75);
+
+  // Pied large
+  ctx.beginPath();
+  ctx.ellipse(265, 278, 105, 15, 0, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+
+
+
+
+
+
+
+if (type === 'horse') {
+  // Corps
+  ctx.beginPath();
+  ctx.ellipse(245, 145, 135, 62, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Encolure inclinée
+  ctx.beginPath();
+  ctx.moveTo(320, 140);
+  ctx.lineTo(350, 65);
+  ctx.lineTo(390, 65);
+  ctx.lineTo(385, 145);
+  ctx.closePath();
+  ctx.fill();
+
+  // Tête et museau horizontal
+  ctx.beginPath();
+  ctx.moveTo(355, 65);
+  ctx.lineTo(375, 35);
+  ctx.lineTo(390, 65);
+  ctx.lineTo(435, 75);
+  ctx.lineTo(445, 100);
+  ctx.lineTo(410, 120);
+  ctx.lineTo(370, 105);
+  ctx.closePath();
+  ctx.fill();
+
+  // Quatre jambes
+  ctx.fillRect(145, 175, 27, 85);
+  ctx.fillRect(205, 180, 27, 80);
+  ctx.fillRect(285, 180, 27, 80);
+  ctx.fillRect(330, 165, 27, 95);
+
+  // Sabots
+  ctx.fillRect(138, 255, 40, 12);
+  ctx.fillRect(198, 255, 40, 12);
+  ctx.fillRect(278, 255, 40, 12);
+  ctx.fillRect(323, 255, 40, 12);
+
+  // Queue
+  ctx.beginPath();
+  ctx.moveTo(115, 130);
+  ctx.quadraticCurveTo(55, 155, 90, 215);
+  ctx.stroke();
+
+  // Crinière
+  ctx.beginPath();
+  ctx.moveTo(335, 65);
+  ctx.lineTo(345, 90);
+  ctx.lineTo(355, 65);
+  ctx.lineTo(365, 90);
+  ctx.stroke();
+}
+
+  
+
+
+
+
+
+
+  
 
   if (type === 'pig') {
     // Corps et tête
@@ -316,32 +365,47 @@ function drawIcon(ctx, type) {
     }
   }
 
-  if (type === 'sombrero') {
-    // Bord large
-    ctx.beginPath();
-    ctx.moveTo(65, 205);
-    ctx.quadraticCurveTo(265, 155, 465, 205);
-    ctx.quadraticCurveTo(265, 285, 65, 205);
-    ctx.closePath();
-    ctx.fill();
+  
+if (type === 'sombrero') {
+  // Très large bord relevé sur les côtés
+  ctx.beginPath();
+  ctx.moveTo(45, 190);
+  ctx.quadraticCurveTo(95, 155, 175, 175);
+  ctx.lineTo(355, 175);
+  ctx.quadraticCurveTo(435, 155, 485, 190);
+  ctx.quadraticCurveTo(420, 265, 265, 260);
+  ctx.quadraticCurveTo(110, 265, 45, 190);
+  ctx.closePath();
+  ctx.fill();
 
-    // Couronne du sombrero
-    ctx.beginPath();
-    ctx.moveTo(165, 190);
-    ctx.quadraticCurveTo(175, 55, 265, 35);
-    ctx.quadraticCurveTo(355, 55, 365, 190);
-    ctx.closePath();
-    ctx.fill();
+  // Couronne basse et large
+  ctx.beginPath();
+  ctx.moveTo(165, 180);
+  ctx.quadraticCurveTo(175, 80, 265, 65);
+  ctx.quadraticCurveTo(355, 80, 365, 180);
+  ctx.closePath();
+  ctx.fill();
 
-    // Bande décorative
-    ctx.strokeStyle = '#00613f';
-    ctx.lineWidth = 13;
-    ctx.beginPath();
-    ctx.moveTo(170, 165);
-    ctx.quadraticCurveTo(265, 185, 360, 165);
-    ctx.stroke();
-  }
+  // Bande décorative
+  ctx.strokeStyle = '#00613f';
+  ctx.lineWidth = 15;
+  ctx.beginPath();
+  ctx.moveTo(170, 155);
+  ctx.quadraticCurveTo(265, 175, 360, 155);
+  ctx.stroke();
+
+  // Liseré sur le bord
+  ctx.strokeStyle = '#00613f';
+  ctx.lineWidth = 9;
+  ctx.beginPath();
+  ctx.moveTo(85, 195);
+  ctx.quadraticCurveTo(265, 245, 445, 195);
+  ctx.stroke();
 }
+
+}
+
+  
 
 function createSignTexture(label, iconType) {
   const canvas = document.createElement('canvas');
