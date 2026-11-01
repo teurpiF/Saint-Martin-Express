@@ -87,11 +87,15 @@ export function createVivaro(scene) {
             depthWrite: false
           });
 
-          const geometry = new THREE.PlaneGeometry(1.15, 1.02);
-          const driver = new THREE.Mesh(geometry, material);
 
-          // Position provisoire derrière le pare-brise
-          driver.position.set(0.32, 1.35, 1.65);
+const geometry = new THREE.PlaneGeometry(0.85, 0.90);
+const driver = new THREE.Mesh(geometry, material);
+
+// Conducteur recentré dans l'habitacle
+driver.position.set(0, 1.45, 1.65);
+
+
+
 
           van.add(driver);
 
