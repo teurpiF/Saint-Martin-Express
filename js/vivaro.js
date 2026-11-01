@@ -49,6 +49,11 @@ export function createVivaro(scene) {
         }
       });
 
+
+
+      model.rotation.y = Math.PI / 2;
+
+      
       // Ajouter le modèle au jeu
       van.add(model);
 
