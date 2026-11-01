@@ -99,6 +99,35 @@ function updateStrip(mesh, delta, offset, width) {
   const left = offset - width / 2;
   const right = offset + width / 2;
 
+  // Bord gauche au début
+  positions[0] = left;
+
+  // Bord gauche à la fin
+  positions[3] = delta + left;
+  positions[12] = delta + left;
+
+  // Bord droit au début
+  positions[6] = right;
+  positions[9] = right;
+
+  // Bord droit à la fin
+  positions[15] = delta + right;
+
+  mesh.geometry.attributes.position.needsUpdate = true;
+  mesh.geometry.computeVertexNormals();
+}
+
+
+
+
+
+
+
+  const positions = mesh.geometry.attributes.position.array;
+
+  const left = offset - width / 2;
+  const right = offset + width / 2;
+
   positions[3] = delta + left;
   positions[9] = right;
   positions[15] = delta + right;
