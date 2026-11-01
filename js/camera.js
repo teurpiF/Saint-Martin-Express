@@ -25,8 +25,8 @@ export function createFollowCamera(camera) {
     // Regarder directement le véhicule.
     look.set(
       car.position.x,
-      1.2,
-      car.position.z
+      2.8,
+      car.position.z - 2
     );
 
     camera.lookAt(look);
