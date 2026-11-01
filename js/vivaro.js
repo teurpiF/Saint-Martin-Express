@@ -51,16 +51,23 @@ export function createVivaro(scene) {
       // Ajouter le modèle au jeu
       van.add(model);
 
-      console.log('Modèle du Vivaro chargé');
+
+      
+      
+      alert('DIAGNOSTIC : le modèle 3D est chargé !');
+    
+    
     },
 
     undefined,
 
     (error) => {
-      console.error(
-        'Erreur de chargement du Vivaro :',
-        error
-      );
+      
+
+
+alert('ERREUR DE CHARGEMENT DU VAN : ' + error);
+
+      
     }
   );
 
