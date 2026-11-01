@@ -2,60 +2,61 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { roadCenter } from './road.js';
 
-// --------------------------------------------------
-// PARAMÈTRES
-// --------------------------------------------------
-
 const ROAD_WIDTH = 6.4;
-const SIGN_DISTANCE = 3.2;
+const VERGE_WIDTH = 1.3;
 
-// --------------------------------------------------
-// CRÉATION DU PICTOGRAMME LOCOMOTIVE
-// --------------------------------------------------
-
-function createTrainTexture() {
+// Face du panneau : locomotive et destination.
+function createSignTexture() {
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
+  canvas.width = 1024;
+  canvas.height = 420;
 
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#20343b';
-  ctx.fillRect(0, 0, 512, 512);
+  // Fond bleu et bordure blanche.
+  ctx.fillStyle = '#174b70';
+  ctx.fillRect(0, 0, 1024, 420);
 
-  ctx.fillStyle = '#f5f0df';
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 14;
+  ctx.strokeRect(12, 12, 1000, 396);
+
+  ctx.fillStyle = '#ffffff';
+
+  // Locomotive blanche à gauche.
+  // Vapeur
+  ctx.beginPath();
+  ctx.arc(145, 95, 32, 0, Math.PI * 2);
+  ctx.arc(185, 72, 38, 0, Math.PI * 2);
+  ctx.arc(225, 98, 30, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Cheminée et cabine
+  ctx.fillRect(125, 130, 38, 115);
+  ctx.fillRect(105, 165, 110, 100);
+
+  // Corps de la locomotive
+  ctx.fillRect(190, 190, 230, 100);
+  ctx.fillRect(350, 150, 100, 140);
+
+  // Châssis
+  ctx.fillRect(95, 285, 380, 32);
 
   // Roues
-  for (const x of [150, 245, 340]) {
+  for (const x of [165, 275, 385]) {
     ctx.beginPath();
-    ctx.arc(x, 345, 34, 0, Math.PI * 2);
+    ctx.arc(x, 325, 32, 0, Math.PI * 2);
     ctx.fill();
   }
 
-  // Châssis
-  ctx.fillRect(105, 290, 270, 35);
-
-  // Corps de la locomotive
-  ctx.fillRect(125, 215, 230, 85);
-  ctx.fillRect(285, 185, 90, 115);
-
-  // Cabine
-  ctx.fillRect(115, 185, 75, 115);
-
-  // Cheminée
-  ctx.fillRect(155, 130, 30, 75);
-  ctx.fillRect(145, 120, 50, 18);
-
-  // Vapeur
-  ctx.beginPath();
-  ctx.arc(180, 95, 30, 0, Math.PI * 2);
-  ctx.arc(215, 75, 38, 0, Math.PI * 2);
-  ctx.arc(250, 95, 30, 0, Math.PI * 2);
-  ctx.arc(225, 115, 28, 0, Math.PI * 2);
-  ctx.fill();
-
   // Rail
-  ctx.fillRect(75, 390, 350, 12);
+  ctx.fillRect(85, 375, 390, 10);
+
+  // Destination
+  ctx.font = 'bold 76px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('GLANDERGLAND', 720, 210);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -63,100 +64,64 @@ function createTrainTexture() {
   return texture;
 }
 
-// --------------------------------------------------
-// CRÉATION DU PANNEAU
-// --------------------------------------------------
-
 function createDirectionSign() {
   const sign = new THREE.Group();
 
-  const boardWidth = 5.2;
-  const boardHeight = 2.5;
+  const width = 2.8;
+  const height = 1.15;
 
-  const boardMaterial = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    roughness: 0.8
-  });
-
+  // Panneau
   const board = new THREE.Mesh(
-    new THREE.BoxGeometry(boardWidth, boardHeight, 0.18),
-    boardMaterial
-  );
-
-  board.position.y = 4.1;
-  board.castShadow = true;
-  board.receiveShadow = true;
-  sign.add(board);
-
-  // Face avant du panneau
-  const face = new THREE.Mesh(
-    new THREE.PlaneGeometry(boardWidth - 0.12, boardHeight - 0.12),
-    new THREE.MeshBasicMaterial({
-      map: createTrainTexture()
+    new THREE.BoxGeometry(width, height, 0.10),
+    new THREE.MeshStandardMaterial({
+      color: 0x174b70,
+      roughness: 0.8
     })
   );
 
-  face.position.set(0, 4.1, 0.101);
-  sign.add(face);
+  board.position.y = 2.55;
+  board.castShadow = true;
+  sign.add(board);
 
-  // Texte du panneau
-  const textCanvas = document.createElement('canvas');
-  textCanvas.width = 1024;
-  textCanvas.height = 256;
-
-  const ctx = textCanvas.getContext('2d');
-
-  ctx.fillStyle = '#20343b';
-  ctx.fillRect(0, 0, 1024, 256);
-
-  ctx.fillStyle = '#f5f0df';
-  ctx.font = 'bold 100px Arial';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('GLANDERGLAND', 512, 128);
-
-  const textTexture = new THREE.CanvasTexture(textCanvas);
-  textTexture.colorSpace = THREE.SRGBColorSpace;
-
-  const text = new THREE.Mesh(
-    new THREE.PlaneGeometry(4.8, 1.2),
-    new THREE.MeshBasicMaterial({ map: textTexture })
+  // Face imprimée
+  const face = new THREE.Mesh(
+    new THREE.PlaneGeometry(width - 0.04, height - 0.04),
+    new THREE.MeshBasicMaterial({
+      map: createSignTexture()
+    })
   );
 
-  text.position.set(0, 4.1, 0.11);
-  sign.add(text);
+  face.position.set(0, 2.55, 0.056);
+  sign.add(face);
 
   // Poteau
   const post = new THREE.Mesh(
-    new THREE.BoxGeometry(0.16, 4.1, 0.16),
+    new THREE.BoxGeometry(0.09, 2.5, 0.09),
     new THREE.MeshStandardMaterial({
       color: 0x69777a,
-      metalness: 0.55,
-      roughness: 0.65
+      metalness: 0.35,
+      roughness: 0.7
     })
   );
 
-  post.position.y = 1.95;
+  post.position.y = 1.2;
   post.castShadow = true;
   sign.add(post);
 
   return sign;
 }
 
-// --------------------------------------------------
-// INSTALLATION ET DÉFILEMENT
-// --------------------------------------------------
-
 export function createSigns(scene) {
   const sign = createDirectionSign();
-
   const initialZ = -75;
 
   scene.add(sign);
 
   function positionSign(z) {
+    const roadside = ROAD_WIDTH / 2 + VERGE_WIDTH + 0.45;
+
     sign.position.set(
-      roadCenter(z) + ROAD_WIDTH / 2 + SIGN_DISTANCE,
+      roadCenter(z) + roadside,
       0,
       z
     );
@@ -178,4 +143,3 @@ export function createSigns(scene) {
     }
   };
 }
-
