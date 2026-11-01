@@ -13,7 +13,7 @@ export function createFollowCamera(camera) {
     desired.set(
       car.position.x,
       portrait ? 7 : 6,
-      portrait ? 11 : 10
+      portrait ? 12.7 : 11.5
     );
 
     // Suivi fluide.
