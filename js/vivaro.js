@@ -97,6 +97,33 @@ driver.position.set(-0.30, 1.52, 1.65);
 
 
 
+
+
+
+
+          
+// REPÈRE DE DIAGNOSTIC
+const marker = new THREE.Mesh(
+  new THREE.SphereGeometry(0.12, 16, 16),
+  new THREE.MeshBasicMaterial({
+    color: 0xff00ff,
+    depthTest: false
+  })
+);
+
+marker.position.copy(driver.position);
+marker.position.z += 0.2;
+
+van.add(marker);
+
+
+
+
+
+
+          
+
+
           van.add(driver);
 
           console.log('Conducteur chargé');
