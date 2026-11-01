@@ -92,7 +92,7 @@ const geometry = new THREE.PlaneGeometry(0.52, 0.72);
 const driver = new THREE.Mesh(geometry, material);
 
 // Conducteur ajusté dans l'habitacle
-driver.position.set(0.40, 1.72, 1.85);
+driver.position.set(0.35, 1.67, 1.85);
 
 
 
