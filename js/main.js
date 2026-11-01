@@ -1,5 +1,5 @@
 
-
+import { createSigns } from './signs.js';
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { createRoad } from './road.js';
@@ -39,6 +39,9 @@ sunlight.castShadow = true;
 scene.add(sunlight);
 
 const road = createRoad(scene);
+
+const signs = createSigns(scene);
+
 const car = createVivaro(scene);
 const updateCamera = createFollowCamera(camera);
 
@@ -129,6 +132,8 @@ function animate(now) {
   // La route défile sous le véhicule.
   car.group.position.z = 3;
   road.update(dt, speed);
+
+  signs.update(dt, speed);
 
   car.update(dt, steering, speed);
   updateCamera(car.group, dt, window.innerWidth / window.innerHeight);
