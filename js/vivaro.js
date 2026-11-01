@@ -70,6 +70,46 @@ export function createVivaro(scene) {
       van.add(model);
 
 
+
+
+
+      // Charger le conducteur 2D
+      const textureLoader = new THREE.TextureLoader();
+
+      textureLoader.load(
+        'https://teurpif.github.io/Saint-Martin-Express/models/conducteur.png',
+
+        (texture) => {
+          const material = new THREE.MeshBasicMaterial({
+            map: texture,
+            transparent: true,
+            side: THREE.DoubleSide,
+            depthWrite: false
+          });
+
+          const geometry = new THREE.PlaneGeometry(1.15, 1.02);
+          const driver = new THREE.Mesh(geometry, material);
+
+          // Position provisoire derrière le pare-brise
+          driver.position.set(0.32, 1.35, 1.65);
+
+          van.add(driver);
+
+          console.log('Conducteur chargé');
+        },
+
+        undefined,
+
+        (error) => {
+          console.error('Erreur conducteur :', error);
+        }
+      );
+
+
+
+
+
+      
       
       
       alert('DIAGNOSTIC : le modèle 3D est chargé !');
