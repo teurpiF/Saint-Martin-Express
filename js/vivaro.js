@@ -88,11 +88,11 @@ export function createVivaro(scene) {
           });
 
 
-const geometry = new THREE.PlaneGeometry(0.65, 0.78);
+const geometry = new THREE.PlaneGeometry(0.52, 0.72);
 const driver = new THREE.Mesh(geometry, material);
 
-// Conducteur plus petit et légèrement décalé à gauche
-driver.position.set(-0.22, 1.43, 1.65);
+// Conducteur ajusté dans l'habitacle
+driver.position.set(-0.30, 1.52, 1.65);
 
 
 
