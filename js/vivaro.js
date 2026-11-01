@@ -11,7 +11,7 @@ export function createVivaro(scene) {
   const loader = new GLTFLoader();
 
   loader.load(
-'../models/passenger-van-with-side-windows.glb',
+'https://teurpif.github.io/Saint-Martin-Express/models/passenger-van-with-side-windows.glb',
 
 
     
