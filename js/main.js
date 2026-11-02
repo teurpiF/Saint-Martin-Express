@@ -1,8 +1,11 @@
+import { createRoad, roadCenter } from './road.js';
+
 
 import { createSigns } from './signs.js?v=3';
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import { createRoad } from './road.js';
+
+
 import { createFollowCamera } from './camera.js';
 import { createVivaro } from './vivaro.js';
 
@@ -59,21 +62,100 @@ let animationId = null;
 
 const distanceElement = document.getElementById('distance');
 const livesElement = document.getElementById('lives');
+
+
+const offroadBar = document.getElementById('offroadBar');
+
+let offroad = 100;
+let offroadDamageTimer = 0;
+
+
+
 const startScreen = document.getElementById('start');
 const pauseScreen = document.getElementById('pauseScreen');
 const endScreen = document.getElementById('end');
 const finalDistanceElement = document.getElementById('finalDistance');
 const hint = document.getElementById('hint');
 
+
+
+
+
+
+
 function updateHUD() {
   distanceElement.textContent = Math.floor(distance);
+
   livesElement.textContent =
     '♥ '.repeat(lives).trim() + (lives < 3 ? ' ♡'.repeat(3 - lives) : '');
+
+  offroadBar.style.width = offroad + '%';
+
+  if (offroad > 50) {
+    offroadBar.style.background = '#75c879';
+  } else if (offroad > 20) {
+    offroadBar.style.background = '#ffc56c';
+  } else {
+    offroadBar.style.background = '#ff554d';
+  }
 }
+
+
+
+
+function updateOffroad(dt) {
+
+  const roadPosition = roadCenter(3);
+  const distanceFromRoad = Math.abs(
+    car.group.position.x - roadPosition
+  );
+
+  const isOffroad = distanceFromRoad > 3.2;
+
+  if (isOffroad) {
+
+    offroad = Math.max(0, offroad - (100 / 2.5) * dt);
+
+    if (offroad <= 0) {
+
+      offroadDamageTimer -= dt;
+
+      if (offroadDamageTimer <= 0) {
+
+        lives--;
+        offroadDamageTimer = 2;
+
+        updateHUD();
+
+        if (lives <= 0) {
+          endGame();
+        }
+      }
+    }
+
+  } else {
+
+    offroad = Math.min(100, offroad + (100 / 4) * dt);
+    offroadDamageTimer = 0;
+  }
+}
+
+
+
+
+
+
+
+
+
 
 function startGame() {
   distance = 0;
   lives = 3;
+
+offroad = 100;
+offroadDamageTimer = 0;
+  
   speed = 9;
   steering = 0;
   targetSteering = 0;
@@ -131,6 +213,12 @@ function animate(now) {
   steering += (targetSteering - steering) * Math.min(1, dt * 4.5);
   car.group.position.x += steering * dt * 5.5;
 
+  updateOffroad(dt);
+
+if (gameOver) return;
+
+
+  
   // La route défile sous le véhicule.
   car.group.position.z = 3;
   road.update(dt, speed);
