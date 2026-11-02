@@ -105,16 +105,19 @@ function updateHUD() {
 
 function updateOffroad(dt) {
 
-  const roadPosition = roadCenter(3);
+  const roadPosition = roadCenter(car.group.position.z);
+
   const distanceFromRoad = Math.abs(
     car.group.position.x - roadPosition
   );
 
-  const isOffroad = distanceFromRoad > 3.2;
+  // Détection dès que le véhicule empiète
+  // sur l'accotement.
+  const isOffroad = distanceFromRoad > 2.3;
 
   if (isOffroad) {
 
-    offroad = Math.max(0, offroad - (100 / 2.5) * dt);
+    offroad = Math.max(0, offroad - 40 * dt);
 
     if (offroad <= 0) {
 
@@ -135,7 +138,7 @@ function updateOffroad(dt) {
 
   } else {
 
-    offroad = Math.min(100, offroad + (100 / 4) * dt);
+    offroad = Math.min(100, offroad + 25 * dt);
     offroadDamageTimer = 0;
   }
 }
