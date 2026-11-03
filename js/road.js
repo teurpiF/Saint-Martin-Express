@@ -276,10 +276,11 @@ export function createRoad(scene) {
       scene.add(tree);
 
       scenery.push({
-        object: tree,
-        z,
-        offset
-      });
+  object: tree,
+  z,
+  offset,
+  collisionHandled: false
+});
     }
   }
 
