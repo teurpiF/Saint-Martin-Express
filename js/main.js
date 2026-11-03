@@ -46,7 +46,7 @@ const road = createRoad(scene);
 
 const signs = createSigns(scene);
 
-const rocks = createRocks(scene); la
+const rocks = createRocks(scene);
 
 const car = createVivaro(scene);
 const updateCamera = createFollowCamera(camera);
