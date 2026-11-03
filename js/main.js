@@ -1,4 +1,5 @@
 import { createRocks } from './rocks.js';
+import { createPotholes } from './potholes.js';
 import { createRoad, roadCenter } from './road.js';
 
 
@@ -47,6 +48,8 @@ const road = createRoad(scene);
 const signs = createSigns(scene);
 
 const rocks = createRocks(scene);
+
+const potholes = createPotholes(scene);
 
 const car = createVivaro(scene);
 const updateCamera = createFollowCamera(camera);
@@ -189,6 +192,7 @@ car.group.position.set(0, 0, 3);
 signs.reset();
 
 rocks.reset();
+potholes.reset();
 bangEffect.classList.remove('show');
   
 updateHUD();
@@ -257,6 +261,16 @@ if (gameOver) return;
   signs.update(dt, speed);
 
 rocks.update(dt, speed, car.group.position.x, () => {
+  lives--;
+  showBang();
+  updateHUD();
+
+  if (lives <= 0) {
+    endGame();
+  }
+});
+
+potholes.update(dt, speed, car.group.position.x, () => {
   lives--;
   showBang();
   updateHUD();
