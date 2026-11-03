@@ -241,8 +241,19 @@ if (gameOver) return;
   
   // La route défile sous le véhicule.
   car.group.position.z = 3;
-  road.update(dt, speed);
+  road.update(dt, speed, car.group.position.x, () => {
+  lives--;
+  showBang();
+  updateHUD();
 
+  if (lives <= 0) {
+    endGame();
+  }
+});
+
+
+
+  
   signs.update(dt, speed);
 
 rocks.update(dt, speed, car.group.position.x, () => {
