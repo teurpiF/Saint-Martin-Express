@@ -290,7 +290,7 @@ export function createRoad(scene) {
 
   return {
 
-    update(dt, speed) {
+update(dt, speed, carX, onTreeCollision) {
 
       // Distance parcourue pendant cette image.
       // Route et végétation utilisent exactement
@@ -378,6 +378,25 @@ export function createRoad(scene) {
           0,
           item.z
         );
+
+const treeX = roadCenter(item.z) + item.offset;
+
+// Détection d'une collision avec un sapin.
+if (
+  !item.collisionHandled &&
+  Math.abs(item.z - 3) < 1.6 &&
+  Math.abs(treeX - carX) < 1.35
+) {
+  item.collisionHandled = true;
+  onTreeCollision();
+}
+
+// Réarmer la collision après le passage du sapin.
+if (item.z > 5.5) {
+  item.collisionHandled = false;
+}
+
+        
       }
     }
   };
