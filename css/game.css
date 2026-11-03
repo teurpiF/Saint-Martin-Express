@@ -240,3 +240,71 @@ font-size: 18px;
   box-shadow: 0 0 8px currentColor;
   transition: width 0.08s linear, background 0.2s;
 }
+
+
+
+
+
+
+
+
+/* IMPACT CARTOON : BANG ! */
+
+.bang-effect {
+  display: none;
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  padding: 22px 30px;
+  color: #ff2424;
+  font-size: clamp(58px, 16vw, 100px);
+  font-weight: 1000;
+  font-style: italic;
+  letter-spacing: -5px;
+  line-height: 1;
+  -webkit-text-stroke: 3px white;
+  paint-order: stroke fill;
+  text-shadow:
+    5px 5px 0 #111,
+    -5px -5px 0 #111,
+    5px -5px 0 #111,
+    -5px 5px 0 #111,
+    0 8px 0 #111;
+  background: #ffe600;
+  border: 7px solid #111;
+  clip-path: polygon(
+    50% 0%, 61% 17%, 80% 5%, 79% 26%,
+    100% 30%, 84% 48%, 100% 65%,
+    78% 70%, 82% 94%, 60% 82%,
+    48% 100%, 37% 81%, 15% 94%,
+    20% 70%, 0% 62%, 16% 45%,
+    0% 28%, 23% 25%, 20% 5%, 40% 18%
+  );
+  pointer-events: none;
+}
+
+.bang-effect.show {
+  display: block;
+  animation: bang-pop 0.85s ease-out forwards;
+}
+
+@keyframes bang-pop {
+  0% {
+    opacity: 0;
+    scale: 0.2;
+  }
+  20% {
+    opacity: 1;
+    scale: 1.2;
+  }
+  40% {
+    scale: 0.95;
+  }
+  100% {
+    opacity: 0;
+    scale: 1;
+  }
+}
+
