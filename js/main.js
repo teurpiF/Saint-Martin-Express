@@ -112,7 +112,7 @@ function updateOffroad(dt) {
   );
 
   // Le véhicule commence à quitter la chaussée.
-  const isOffroad = distanceFromRoad > 1.8;
+  const isOffroad = distanceFromRoad > 2.2;
 
   if (isOffroad) {
 
