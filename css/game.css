@@ -253,6 +253,8 @@ font-size: 18px;
 .bang-effect {
   display: none;
   position: fixed;
+width: max-content;
+white-space: nowrap;
   z-index: 20;
   left: 50%;
   top: 52%;
