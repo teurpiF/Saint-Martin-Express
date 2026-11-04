@@ -108,8 +108,8 @@ export function createBonuses(scene) {
     }
 
     bonus.position.z += speed * dt;
-    bonus.position.x = roadCenter(bonus.position.z) +
-      (bonus.position.x - roadCenter(SPAWN_Z));
+        bonus.position.x =
+      roadCenter(bonus.position.z) + bonus.userData.lateralOffset;
 
     // Scintillement et légère pulsation.
     const pulse = 0.65 + 0.35 * Math.sin(distance * 0.18);
