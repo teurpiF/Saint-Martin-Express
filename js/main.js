@@ -5,7 +5,7 @@ import { createRoad, roadCenter } from './road.js';
 
 
 import { createSigns } from './signs.js?v=3';
-
+import { createSaintMartin } from './saintMartin.js';
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
 
@@ -47,7 +47,7 @@ scene.add(sunlight);
 const road = createRoad(scene);
 
 const signs = createSigns(scene);
-
+const saintMartin = createSaintMartin(scene);
 const rocks = createRocks(scene);
 
 const potholes = createPotholes(scene);
