@@ -359,7 +359,8 @@ if (gameOver) return;
     endGame();
   }
 });
-
+if (gameOver) return;
+  
 rocks.update(dt, speed, car.group.position.x, () => {
   lives--;
   showBang();
