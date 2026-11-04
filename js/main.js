@@ -211,6 +211,9 @@ function updateOffroad(dt) {
 function startGame() {
   distance = 0;
   lives = 3;
+  speedBoostEndDistance = 0;
+immunityEndDistance = 0;
+car.group.visible = true;
 
 offroad = 100;
 offroadDamageTimer = 0;
