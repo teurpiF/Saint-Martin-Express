@@ -180,7 +180,7 @@ function updateOffroad(dt) {
 
       offroadDamageTimer -= dt;
 
-      if (offroadDamageTimer <= 0) {
+if (offroadDamageTimer <= 0 && !isImmune()) {
         lives--;
         offroadDamageTimer = 2;
 
