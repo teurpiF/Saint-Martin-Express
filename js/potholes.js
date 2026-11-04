@@ -5,6 +5,7 @@ import { roadCenter } from './road.js';
 const POTHOLE_COUNT = 5;
 const RECYCLE_DISTANCE = 220;
 const CAR_Z = 3;
+const SEGMENTS = 12;
 
 function randomLaneOffset() {
   return (Math.random() * 4.2) - 2.1;
@@ -14,52 +15,133 @@ function createPothole() {
   const group = new THREE.Group();
 
   const rimMaterial = new THREE.MeshStandardMaterial({
-    color: 0x77736b,
+    color: 0x999990,
     roughness: 1,
-    flatShading: true
+    flatShading: true,
+    side: THREE.DoubleSide
   });
 
   const darkMaterial = new THREE.MeshStandardMaterial({
-    color: 0x242321,
+    color: 0x17191a,
+    roughness: 1,
+    flatShading: true,
+    side: THREE.DoubleSide
+  });
+
+  const crackMaterial = new THREE.MeshStandardMaterial({
+    color: 0x343638,
     roughness: 1,
     flatShading: true
   });
 
-  // Bord irrégulier du nid-de-poule.
-  const rim = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(0.85, 0),
-    rimMaterial
+  // Bordure irrégulière et déchirée.
+  const vertices = [];
+  const indices = [];
+
+  const outer = [];
+  const inner = [];
+
+  for (let i = 0; i < SEGMENTS; i++) {
+    const angle = (i / SEGMENTS) * Math.PI * 2;
+    const variation = 0.82 + Math.random() * 0.36;
+
+    outer.push({
+      x: Math.cos(angle) * 1.05 * variation,
+      z: Math.sin(angle) * 0.72 * variation
+    });
+
+    inner.push({
+      x: Math.cos(angle) * 0.65 * variation,
+      z: Math.sin(angle) * 0.43 * variation
+    });
+  }
+
+  for (let i = 0; i < SEGMENTS; i++) {
+    const next = (i + 1) % SEGMENTS;
+
+    vertices.push(
+      outer[i].x, 0.025, outer[i].z,
+      inner[i].x, 0.025, inner[i].z
+    );
+
+    const a = i * 2;
+    const b = a + 1;
+    const c = next * 2;
+    const d = c + 1;
+
+    indices.push(a, b, c, b, d, c);
+  }
+
+  const rimGeometry = new THREE.BufferGeometry();
+  rimGeometry.setAttribute(
+    'position',
+    new THREE.Float32BufferAttribute(vertices, 3)
   );
+  rimGeometry.setIndex(indices);
+  rimGeometry.computeVertexNormals();
 
-  rim.scale.set(1, 0.035, 0.62);
-  rim.position.y = 0.025;
-  group.add(rim);
+  group.add(new THREE.Mesh(rimGeometry, rimMaterial));
 
-  // Centre sombre et légèrement enfoncé.
-  const center = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(0.65, 0),
-    darkMaterial
-  );
+  // Fond noir du trou, légèrement irrégulier.
+  const holeShape = new THREE.Shape();
 
-  center.scale.set(1, 0.018, 0.58);
-  center.position.y = 0.035;
-  group.add(center);
+  for (let i = 0; i < SEGMENTS; i++) {
+    const p = inner[i];
 
-  // Quelques éclats autour du trou.
-  for (let i = 0; i < 5; i++) {
+    if (i === 0) {
+      holeShape.moveTo(p.x, p.z);
+    } else {
+      holeShape.lineTo(p.x, p.z);
+    }
+  }
+
+  holeShape.closePath();
+
+  const holeGeometry = new THREE.ShapeGeometry(holeShape);
+  const hole = new THREE.Mesh(holeGeometry, darkMaterial);
+
+  hole.rotation.x = -Math.PI / 2;
+  hole.position.y = 0.035;
+  group.add(hole);
+
+  // Fissures qui partent du trou.
+  for (let i = 0; i < 7; i++) {
+    const angle = (i / 7) * Math.PI * 2 + Math.random() * 0.3;
+    const length = 0.35 + Math.random() * 0.35;
+
     const crack = new THREE.Mesh(
-      new THREE.BoxGeometry(0.32, 0.025, 0.045),
-      rimMaterial
+      new THREE.BoxGeometry(length, 0.025, 0.045),
+      crackMaterial
     );
 
     crack.position.set(
-      Math.cos(i * 1.25) * 0.72,
+      Math.cos(angle) * (0.85 + length * 0.35),
       0.045,
-      Math.sin(i * 1.25) * 0.48
+      Math.sin(angle) * (0.58 + length * 0.35)
     );
 
-    crack.rotation.y = i * 1.25;
+    crack.rotation.y = -angle;
     group.add(crack);
+  }
+
+  // Quelques morceaux d'asphalte arrachés.
+  for (let i = 0; i < 5; i++) {
+    const chip = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.12 + Math.random() * 0.1, 0),
+      rimMaterial
+    );
+
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 0.85 + Math.random() * 0.3;
+
+    chip.position.set(
+      Math.cos(angle) * radius,
+      0.07,
+      Math.sin(angle) * radius * 0.65
+    );
+
+    chip.scale.y = 0.25;
+    group.add(chip);
   }
 
   return group;
@@ -85,7 +167,7 @@ export function createPotholes(scene) {
   for (let i = 0; i < POTHOLE_COUNT; i++) {
     const object = createPothole();
 
-    const scale = 0.75 + Math.random() * 0.35;
+    const scale = 0.85 + Math.random() * 0.25;
     object.scale.setScalar(scale);
 
     scene.add(object);
