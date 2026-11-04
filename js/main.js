@@ -382,7 +382,12 @@ potholes.update(dt, speed, car.group.position.x, () => {
     endGame();
   }
 });
-
+bonuses.update(dt, speed, distance, car.group.position.x, (type) => {
+  if (type === 'sponge') {
+    lives = Math.min(3, lives + 1);
+    updateHUD();
+  }
+});
   
   car.update(dt, steering, speed);
   updateCamera(car.group, dt, window.innerWidth / window.innerHeight);
