@@ -209,13 +209,13 @@ signs.reset();
 
 rocks.reset();
 potholes.reset();
-tractorPreview.position.set(
-  roadCenter(-12) + 1.65,
+tractorObstacle.position.set(
+  roadCenter(-18) + 1.65,
   0,
-  -12
+  -18
 );
 
-tractorPreview.visible = true;
+tractorObstacle.visible = true;
 
   
 bangEffect.classList.remove('show');
