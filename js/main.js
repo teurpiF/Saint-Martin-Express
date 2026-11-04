@@ -1,3 +1,4 @@
+import { createTractorModel } from './tractor.js';
 import { createRocks } from './rocks.js';
 import { createPotholes } from './potholes.js';
 import { createRoad, roadCenter } from './road.js';
@@ -50,6 +51,18 @@ const signs = createSigns(scene);
 const rocks = createRocks(scene);
 
 const potholes = createPotholes(scene);
+
+const tractorPreview = createTractorModel();
+
+tractorPreview.scale.setScalar(0.55);
+tractorPreview.position.set(
+  roadCenter(-12) + 1.65,
+  0,
+  -12
+);
+
+scene.add(tractorPreview);
+
 
 const car = createVivaro(scene);
 const updateCamera = createFollowCamera(camera);
@@ -193,6 +206,15 @@ signs.reset();
 
 rocks.reset();
 potholes.reset();
+tractorPreview.position.set(
+  roadCenter(-12) + 1.65,
+  0,
+  -12
+);
+
+tractorPreview.visible = true;
+
+  
 bangEffect.classList.remove('show');
   
 updateHUD();
@@ -231,6 +253,13 @@ function animate(now) {
   elapsed += dt;
 
   distance += speed * dt;
+  if (tractorPreview.visible) {
+  tractorPreview.position.z += speed * dt;
+
+  if (tractorPreview.position.z > 12) {
+    tractorPreview.visible = false;
+  }
+}
   speed = Math.min(9 + distance * 0.008, 19);
 
   // Direction progressive : le véhicule suit le mouvement du doigt.
