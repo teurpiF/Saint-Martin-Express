@@ -365,7 +365,8 @@ if (gameOver) return;
   signs.update(dt, speed);
 
   saintMartin.update(dt, speed, distance, car.group.position.x, (deadly) => {
-  if (deadly) {
+    if (isImmune()) return;
+    if (deadly) {
     lives = 0;
     updateHUD();
     endGame();
