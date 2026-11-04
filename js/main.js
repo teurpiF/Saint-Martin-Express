@@ -225,6 +225,7 @@ signs.reset();
 saintMartin.reset();
 rocks.reset();
 potholes.reset();
+bonuses.reset();
 spawnTractor();
 
 nextTractorDistance =
