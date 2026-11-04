@@ -52,16 +52,19 @@ const rocks = createRocks(scene);
 
 const potholes = createPotholes(scene);
 
-const tractorPreview = createTractorModel();
 
-tractorPreview.scale.setScalar(0.55);
-tractorPreview.position.set(
-  roadCenter(-12) + 1.65,
+// Tracteur mobile : obstacle dans la voie de droite.
+const tractorObstacle = createTractorModel();
+
+tractorObstacle.scale.setScalar(0.55);
+tractorObstacle.position.set(
+  roadCenter(-18) + 1.65,
   0,
-  -12
+  -18
 );
 
-scene.add(tractorPreview);
+scene.add(tractorObstacle);
+
 
 
 const car = createVivaro(scene);
