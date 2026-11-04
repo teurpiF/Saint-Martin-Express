@@ -112,7 +112,7 @@ export function createSaintMartin(scene) {
 
     const direction = Math.random() < 0.5 ? -1 : 1;
 
-    sprite.rotation = randomBetween(-0.18, 0.18);
+sprite.material.rotation = randomBetween(-0.18, 0.18);
 
     const offset = randomBetween(-1.8, 1.8);
 
@@ -124,16 +124,17 @@ export function createSaintMartin(scene) {
 
     scene.add(sprite);
 
-    currentObstacle = {
-      sprite,
-      item,
-      direction,
-      offset,
-      phase: randomBetween(0, Math.PI * 2),
-      amplitude: randomBetween(0.5, 1.5),
-      lateralSpeed: randomBetween(0.5, 1.1),
-      hit: false
-    };
+currentObstacle = {
+  sprite,
+  item,
+  direction,
+  offset,
+  baseOffset: offset,
+  phase: randomBetween(0, Math.PI * 2),
+  amplitude: randomBetween(0.5, 1.5),
+  lateralSpeed: randomBetween(0.5, 1.1),
+  hit: false
+};
 
     const [min, max] = getDifficulty(distance);
     nextSpawnDistance = distance + randomBetween(min, max);
@@ -167,14 +168,12 @@ export function createSaintMartin(scene) {
     const wave =
       Math.sin(distance * obstacle.lateralSpeed * 0.025 + obstacle.phase);
 
-    obstacle.offset +=
-      wave * obstacle.direction * obstacle.amplitude * dt * 0.35;
-
     obstacle.offset = THREE.MathUtils.clamp(
-      obstacle.offset,
-      -2.7,
-      2.7
-    );
+  obstacle.baseOffset +
+    wave * obstacle.direction * obstacle.amplitude,
+  -2.7,
+  2.7
+);
 
     sprite.position.x =
       roadCenter(sprite.position.z) + obstacle.offset;
