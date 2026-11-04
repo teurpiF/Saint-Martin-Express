@@ -279,7 +279,11 @@ function animate(now) {
   const dt = Math.min((now - lastTime) / 1000, 0.05);
   lastTime = now;
   elapsed += dt;
-
+if (isImmune()) {
+  car.group.visible = Math.floor(elapsed * 10) % 2 === 0;
+} else {
+  car.group.visible = true;
+}
   distance += speed * dt;
   
  
