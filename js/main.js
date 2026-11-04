@@ -224,13 +224,10 @@ signs.reset();
 
 rocks.reset();
 potholes.reset();
-tractorObstacle.position.set(
-  roadCenter(-18) + 1.65,
-  0,
-  -18
-);
+spawnTractor();
 
-tractorObstacle.visible = true;
+nextTractorDistance =
+  [2, 3, 4][Math.floor(Math.random() * 3)] * 120;
 
   
 bangEffect.classList.remove('show');
