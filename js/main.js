@@ -53,17 +53,32 @@ const rocks = createRocks(scene);
 const potholes = createPotholes(scene);
 
 
+
 // Tracteur mobile : obstacle dans la voie de droite.
-const tractorObstacle = createTractorModel();
+let tractorObstacle = null;
+let nextTractorDistance = 0;
 
-tractorObstacle.scale.setScalar(0.55);
-tractorObstacle.position.set(
-  roadCenter(-18) + 1.65,
-  0,
-  -18
-);
+function spawnTractor() {
+  if (tractorObstacle) {
+    scene.remove(tractorObstacle);
+  }
 
-scene.add(tractorObstacle);
+  // Nouveau modèle : couleur choisie aléatoirement.
+  tractorObstacle = createTractorModel();
+  tractorObstacle.scale.setScalar(0.55);
+
+  tractorObstacle.position.set(
+    roadCenter(-18) + 1.65,
+    0,
+    -18
+  );
+
+  tractorObstacle.visible = true;
+  scene.add(tractorObstacle);
+}
+
+// Première apparition.
+spawnTractor();
 
 
 
