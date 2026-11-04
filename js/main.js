@@ -314,16 +314,7 @@ if (distanceZ < 1.7 && distanceX < 1.35) {
     }
   }
 }
-      tractorObstacle.visible = false;
-      lives--;
-      showBang();
-      updateHUD();
 
-      if (lives <= 0) {
-        endGame();
-        return;
-      }
-    }
 
     // Le tracteur disparaît après avoir dépassé le Vivaro.
     if (tractorObstacle.position.z > car.group.position.z + 3) {
