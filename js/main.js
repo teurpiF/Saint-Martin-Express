@@ -6,6 +6,7 @@ import { createRoad, roadCenter } from './road.js';
 
 import { createSigns } from './signs.js?v=3';
 import { createSaintMartin } from './saintMartin.js';
+import { createBonuses } from './bonuses.js';
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
 
