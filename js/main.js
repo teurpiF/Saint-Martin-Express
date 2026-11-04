@@ -300,7 +300,20 @@ function animate(now) {
       tractorObstacle.position.x - car.group.position.x
     );
 
-    if (distanceZ < 1.7 && distanceX < 1.35) {
+if (distanceZ < 1.7 && distanceX < 1.35) {
+  tractorObstacle.visible = false;
+
+  if (!isImmune()) {
+    lives--;
+    showBang();
+    updateHUD();
+
+    if (lives <= 0) {
+      endGame();
+      return;
+    }
+  }
+}
       tractorObstacle.visible = false;
       lives--;
       showBang();
