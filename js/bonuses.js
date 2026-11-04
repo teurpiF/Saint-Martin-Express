@@ -72,20 +72,15 @@ export function createBonuses(scene) {
       1
     );
 
-    const lateralOffset = Math.random() * 3 - 1.5;
+        const lateralOffset = Math.random() * 3 - 1.5;
 
-const lateralOffset = Math.random() * 3 - 1.5;
+    sprite.position.set(
+      roadCenter(SPAWN_Z) + lateralOffset,
+      item.height / 2,
+      SPAWN_Z
+    );
 
-sprite.position.set(
-  roadCenter(SPAWN_Z) + lateralOffset,
-  item.height / 2,
-  SPAWN_Z
-);
-
-sprite.userData.lateralOffset = lateralOffset;
-
-sprite.userData.lateralOffset = lateralOffset;
-
+    sprite.userData.lateralOffset = lateralOffset;
     sprite.userData.baseScale = sprite.scale.clone();
 
     bonus = sprite;
