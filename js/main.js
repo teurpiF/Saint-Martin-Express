@@ -305,6 +305,15 @@ function animate(now) {
     }
   }
 
+  // Réapparition après 2, 3 ou 4 espacements de panneaux.
+  if (!tractorObstacle.visible && distance >= nextTractorDistance) {
+    spawnTractor();
+
+    nextTractorDistance =
+      distance + [2, 3, 4][Math.floor(Math.random() * 3)] * 120;
+  }
+
+  
   speed = Math.min(9 + distance * 0.008, 19);
 
   // Direction progressive : le véhicule suit le mouvement du doigt.
