@@ -354,7 +354,8 @@ if (gameOver) return;
   // La route défile sous le véhicule.
   car.group.position.z = 3;
   road.update(dt, speed, car.group.position.x, () => {
-  lives--;
+    if (isImmune()) return;
+    lives--;
   showBang();
   updateHUD();
 
