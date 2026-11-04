@@ -256,13 +256,43 @@ function animate(now) {
   elapsed += dt;
 
   distance += speed * dt;
-  if (tractorPreview.visible) {
-  tractorPreview.position.z += speed * dt;
+  
+ 
+  if (tractorObstacle.visible) {
+    // Le tracteur avance à 50 % de la vitesse du Vivaro.
+    tractorObstacle.position.z += speed * 0.5 * dt;
 
-  if (tractorPreview.position.z > 12) {
-    tractorPreview.visible = false;
+    // Il suit la courbure de la route dans la voie droite.
+    tractorObstacle.position.x =
+      roadCenter(tractorObstacle.position.z) + 1.65;
+
+    // Détection de collision avec le Vivaro.
+    const distanceZ = Math.abs(
+      tractorObstacle.position.z - car.group.position.z
+    );
+
+    const distanceX = Math.abs(
+      tractorObstacle.position.x - car.group.position.x
+    );
+
+    if (distanceZ < 1.7 && distanceX < 1.35) {
+      tractorObstacle.visible = false;
+      lives--;
+      showBang();
+      updateHUD();
+
+      if (lives <= 0) {
+        endGame();
+        return;
+      }
+    }
+
+    // Le tracteur disparaît après avoir dépassé le Vivaro.
+    if (tractorObstacle.position.z > car.group.position.z + 3) {
+      tractorObstacle.visible = false;
+    }
   }
-}
+
   speed = Math.min(9 + distance * 0.008, 19);
 
   // Direction progressive : le véhicule suit le mouvement du doigt.
