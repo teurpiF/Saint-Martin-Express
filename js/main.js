@@ -395,6 +395,7 @@ rocks.update(dt, speed, car.group.position.x, () => {
 });
 
 potholes.update(dt, speed, car.group.position.x, () => {
+   if (isImmune()) return;
   lives--;
   showBang();
   updateHUD();
