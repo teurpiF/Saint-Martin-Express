@@ -393,10 +393,17 @@ potholes.update(dt, speed, car.group.position.x, () => {
     endGame();
   }
 });
+
+  
 bonuses.update(dt, speed, distance, car.group.position.x, (type) => {
   if (type === 'sponge') {
     lives = Math.min(3, lives + 1);
     updateHUD();
+  }
+
+  if (type === 'suze') {
+    speedBoostEndDistance = distance + 100;
+    immunityEndDistance = distance + 120;
   }
 });
   
