@@ -52,7 +52,7 @@ const saintMartin = createSaintMartin(scene);
 const rocks = createRocks(scene);
 
 const potholes = createPotholes(scene);
-
+const bonuses = createBonuses(scene);
 
 
 // Tracteur mobile : obstacle dans la voie de droite.
