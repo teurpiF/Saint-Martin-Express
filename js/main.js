@@ -327,7 +327,11 @@ function animate(now) {
   }
 
   
-  speed = Math.min(9 + distance * 0.008, 19);
+const baseSpeed = Math.min(9 + distance * 0.008, 19);
+
+speed = distance < speedBoostEndDistance
+  ? baseSpeed * SPEED_MULTIPLIER
+  : baseSpeed;
 
   // Direction progressive : le véhicule suit le mouvement du doigt.
   steering += (targetSteering - steering) * Math.min(1, dt * 4.5);
