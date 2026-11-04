@@ -384,6 +384,7 @@ if (gameOver) return;
 if (gameOver) return;
   
 rocks.update(dt, speed, car.group.position.x, () => {
+   if (isImmune()) return; 
   lives--;
   showBang();
   updateHUD();
