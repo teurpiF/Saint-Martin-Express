@@ -221,7 +221,7 @@ offroadDamageTimer = 0;
 
 car.group.position.set(0, 0, 3);
 signs.reset();
-
+saintMartin.reset();
 rocks.reset();
 potholes.reset();
 spawnTractor();
@@ -342,6 +342,23 @@ if (gameOver) return;
 
   
   signs.update(dt, speed);
+
+  saintMartin.update(dt, speed, distance, car.group.position.x, (deadly) => {
+  if (deadly) {
+    lives = 0;
+    updateHUD();
+    endGame();
+    return;
+  }
+
+  lives--;
+  showBang();
+  updateHUD();
+
+  if (lives <= 0) {
+    endGame();
+  }
+});
 
 rocks.update(dt, speed, car.group.position.x, () => {
   lives--;
