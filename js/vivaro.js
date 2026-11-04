@@ -3,7 +3,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/
 
 
 export function createVivaro(scene) {
-  alert('TEST : vivaro.js est bien exécuté');
+
   const van = new THREE.Group();
 
   van.position.set(0, 0, 3);
@@ -23,12 +23,7 @@ export function createVivaro(scene) {
       const box = new THREE.Box3().setFromObject(model);
       const size = box.getSize(new THREE.Vector3());
      
-      alert(
-  'Dimensions du Vivaro :\n' +
-  'X : ' + size.x.toFixed(2) + '\n' +
-  'Y : ' + size.y.toFixed(2) + '\n' +
-  'Z : ' + size.z.toFixed(2)
-);
+
       
       
       
@@ -118,7 +113,8 @@ driver.position.set(0.35, 1.67, 1.85);
       
       
       
-      alert('DIAGNOSTIC : le modèle 3D est chargé !');
+
+      
     
     
     },
