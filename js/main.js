@@ -97,6 +97,14 @@ let targetSteering = 0;
 let elapsed = 0;
 let lastTime = 0;
 let animationId = null;
+let speedBoostEndDistance = 0;
+let immunityEndDistance = 0;
+
+const SPEED_MULTIPLIER = 1.5;
+
+function isImmune() {
+  return distance < immunityEndDistance;
+}
 
 const distanceElement = document.getElementById('distance');
 const livesElement = document.getElementById('lives');
